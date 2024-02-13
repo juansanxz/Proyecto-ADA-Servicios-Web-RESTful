@@ -1,14 +1,26 @@
 package edu.escuelaing.ieti.repository.user;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-public class User {
+@Document(collection = "user_collection")
+public class User implements Serializable {
 
-    private final String id;
-    private final Date createdAt;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    private String id;
+    private Date createdAt;
     private String name;
     private String lastName;
     private String email;
+
+    public User() {
+    }
 
     public User(String id, String name, String lastName, String email) {
         this.id = id;
@@ -66,6 +78,34 @@ public class User {
         this.lastName = userDto.getLastName();
         this.email = userDto.getEmail();
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(createdAt, user.createdAt) && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, createdAt, name, lastName, email);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", createdAt=" + createdAt +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    public void setCreatedAt(Date date) {
+        this.createdAt = date;
     }
 }
 

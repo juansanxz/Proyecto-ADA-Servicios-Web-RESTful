@@ -17,5 +17,5 @@ public interface UsersService {
 
     void deleteById(String id) throws UserNotFoundException;
 
-    User update(UserDto user, String userId) throws UserNotFoundException;
+    User update(User user, String userId) throws UserNotFoundException;
 }

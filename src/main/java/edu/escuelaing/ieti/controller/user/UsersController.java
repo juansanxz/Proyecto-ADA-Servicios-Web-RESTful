@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,8 @@ public class UsersController {
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
+            user.setCreatedAt(new Date());
+
             User userSaved = usersService.save(user);
             URI createdUserUri = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -62,7 +65,7 @@ public class UsersController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody UserDto userUpdate) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User userUpdate) {
         try {
             User userUpdated = usersService.update(userUpdate, id);
             return ResponseEntity.ok(userUpdated);
