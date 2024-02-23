@@ -1,17 +1,15 @@
-package edu.escuelaing.ieti.repository.user;
+package edu.escuelaing.ieti.controller.user;
 
 public class UserDto {
-    private final String name;
-    private final String lastName;
-    private final String email;
-    private final String password;
+    String name;
+    String lastName;
+    String email;
+    String password;
 
-    public UserDto() {
-        this.name = "";
-        this.lastName = "";
-        this.email = "";
-        this.password = "";
+    public UserDto()
+    {
     }
+
 
     public UserDto(String name, String lastName, String email, String password) {
         this.name = name;

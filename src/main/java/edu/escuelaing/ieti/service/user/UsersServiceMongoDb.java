@@ -3,12 +3,11 @@ package edu.escuelaing.ieti.service.user;
 import edu.escuelaing.ieti.exception.UserAlreadyExistsException;
 import edu.escuelaing.ieti.exception.UserNotFoundException;
 import edu.escuelaing.ieti.repository.user.User;
-import edu.escuelaing.ieti.repository.user.UserDto;
-import edu.escuelaing.ieti.repository.user.UserMongoRepository;
+import edu.escuelaing.ieti.controller.user.UserDto;
+import edu.escuelaing.ieti.repository.UserMongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +20,10 @@ public class UsersServiceMongoDb implements UsersService{
         this.userMongoRepository = userMongoRepository;
     }
 
-    @Override
-    public User save(User user) throws UserAlreadyExistsException {
-        if (!userMongoRepository.existsById(user.getId())) {
-            return userMongoRepository.save(user);
-        } else {
-            throw new UserAlreadyExistsException(user.getId());
-        }
 
+    @Override
+    public User create(UserDto user) {
+        return userMongoRepository.save(new User( user ));
     }
 
     @Override
@@ -39,6 +34,21 @@ public class UsersServiceMongoDb implements UsersService{
             throw new UserNotFoundException(id);
         }
 
+    }
+
+    @Override
+    public User findByEmail( String email )
+            throws UserNotFoundException
+    {
+        Optional<User> optionalUser = userMongoRepository.findByEmail( email );
+        if ( optionalUser.isPresent() )
+        {
+            return optionalUser.get();
+        }
+        else
+        {
+            throw new UserNotFoundException("");
+        }
     }
 
     @Override
@@ -56,7 +66,7 @@ public class UsersServiceMongoDb implements UsersService{
     }
 
     @Override
-    public User update(User user, String userId) throws UserNotFoundException {
+    public User update(UserDto user, String userId) throws UserNotFoundException {
         if (userMongoRepository.existsById(userId)) {
             User userToUpdate = userMongoRepository.findById(userId).get();
             UserDto userUpdated = new UserDto(user.getName(), user.getLastName(), user.getEmail());
