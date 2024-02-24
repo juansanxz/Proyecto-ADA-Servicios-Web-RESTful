@@ -21,7 +21,7 @@ import java.util.Date;
 
 
 @RestController
-@RequestMapping( "v1/auth" )
+@RequestMapping( "/v1/auth" )
 public class AuthController
 {
 
